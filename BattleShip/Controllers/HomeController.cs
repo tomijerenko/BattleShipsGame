@@ -16,12 +16,6 @@ namespace BattleShip.Controllers
         public HomeController(DataBaseContext context)
         {            
             _context = context;
-            //_context.Database.EnsureDeleted();
-            //if (_context.Database.EnsureCreated())
-            //{
-            //    _context.Statistics.Add(new GameStatistics());
-            //    _context.SaveChanges();
-            //}                
         }
 
         [HttpGet]

@@ -14277,11 +14277,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Tomi\\Desktop\\sqewl\\ITK_MAG\\ITA\\BattleShipBoard\\BattleShip\\BattleShipTests\\BattleShipTests.csproj",
+      "projectUniqueName": "C:\\Users\\Tomi\\Documents\\GitHub\\BattleShipsGame\\BattleShipTests\\BattleShipTests.csproj",
       "projectName": "BattleShipTests",
-      "projectPath": "C:\\Users\\Tomi\\Desktop\\sqewl\\ITK_MAG\\ITA\\BattleShipBoard\\BattleShip\\BattleShipTests\\BattleShipTests.csproj",
+      "projectPath": "C:\\Users\\Tomi\\Documents\\GitHub\\BattleShipsGame\\BattleShipTests\\BattleShipTests.csproj",
       "packagesPath": "C:\\Users\\Tomi\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Tomi\\Desktop\\sqewl\\ITK_MAG\\ITA\\BattleShipBoard\\BattleShip\\BattleShipTests\\obj\\",
+      "outputPath": "C:\\Users\\Tomi\\Documents\\GitHub\\BattleShipsGame\\BattleShipTests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -14300,8 +14300,8 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "C:\\Users\\Tomi\\Desktop\\sqewl\\ITK_MAG\\ITA\\BattleShipBoard\\BattleShip\\BattleShip\\BattleShip.csproj": {
-              "projectPath": "C:\\Users\\Tomi\\Desktop\\sqewl\\ITK_MAG\\ITA\\BattleShipBoard\\BattleShip\\BattleShip\\BattleShip.csproj"
+            "C:\\Users\\Tomi\\Documents\\GitHub\\BattleShipsGame\\BattleShip\\BattleShip.csproj": {
+              "projectPath": "C:\\Users\\Tomi\\Documents\\GitHub\\BattleShipsGame\\BattleShip\\BattleShip.csproj"
             }
           }
         }

@@ -1,4 +1,10 @@
-﻿(function webpackUniversalModuleDefinition(root, factory) {
+﻿/* 
+ * Library author Radu Matei
+ * Library source: https://rawgit.com/radu-matei/websocket-manager/master/src/WebSocketManager.Client.TS/dist/WebSocketManager.js 
+ * 
+ */
+
+(function webpackUniversalModuleDefinition(root, factory) {
     if (typeof exports === 'object' && typeof module === 'object')
         module.exports = factory();
     else if (typeof define === 'function' && define.amd)

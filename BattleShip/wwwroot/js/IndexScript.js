@@ -4,7 +4,7 @@
 
 function refreshStatisticsData() {
     $.ajax({
-        url: "http://localhost:5000/StatisticsData",
+        url: "http://" + window.location.host+"/StatisticsData",
         type: 'GET',
         success: function (data) {
             $("#timeTotal").html(data.totalTimePlayed);

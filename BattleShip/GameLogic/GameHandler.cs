@@ -32,6 +32,13 @@ namespace BattleShip.GameLogic
                 .GetConnectionString("DefaultConnection"))
                 .Options);
 
+            //_context.Database.EnsureDeleted();
+            if (_context.Database.EnsureCreated())
+            {
+                _context.Statistics.Add(new GameStatistics());
+                _context.SaveChanges();
+            }
+
             _battlesList = new List<Battle>();
         }
 

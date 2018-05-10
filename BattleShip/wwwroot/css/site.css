@@ -33,8 +33,9 @@
     }
 
 .backgroundFit {
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
+    margin: -20px -15px -15px -15px;
 }
 
 .fieldSelected {
@@ -73,8 +74,8 @@
     border: 16px solid #000000;
     border-top: 16px solid #3498db;
     border-radius: 50%;
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     animation: spin 2s linear infinite;
     margin: auto;
 }
@@ -149,4 +150,16 @@ div.middle-div {
     -webkit-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
+}
+
+.windowCenterLoadingText {
+    width: 50%;
+    height: 50%;
+    overflow: auto;
+    margin: auto;
+    position: absolute;
+    top: 250px;
+    left: 0;
+    bottom: 0;
+    right: 0;
 }
