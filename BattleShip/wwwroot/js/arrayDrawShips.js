@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     var clicked = false
     var maxFieldsCounter = 0;
-    
+
     $("#playerSetupTable").on("mouseleave", function mouseState(e) {
         clicked = false;
     });

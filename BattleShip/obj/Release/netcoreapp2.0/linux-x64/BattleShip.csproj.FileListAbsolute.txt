@@ -1,0 +1,13 @@
+C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\bin\Release\netcoreapp2.0\linux-x64\libhostpolicy.so
+C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\bin\Release\netcoreapp2.0\linux-x64\libhostfxr.so
+C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\bin\Release\netcoreapp2.0\linux-x64\BattleShip
+C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\bin\Release\netcoreapp2.0\linux-x64\BattleShip.deps.json
+C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\bin\Release\netcoreapp2.0\linux-x64\BattleShip.runtimeconfig.json
+C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\bin\Release\netcoreapp2.0\linux-x64\BattleShip.runtimeconfig.dev.json
+C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\bin\Release\netcoreapp2.0\linux-x64\BattleShip.dll
+C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\bin\Release\netcoreapp2.0\linux-x64\BattleShip.pdb
+C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\obj\Release\netcoreapp2.0\linux-x64\BattleShip.csproj.CoreCompileInputs.cache
+C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\obj\Release\netcoreapp2.0\linux-x64\BattleShip.AssemblyInfoInputs.cache
+C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\obj\Release\netcoreapp2.0\linux-x64\BattleShip.AssemblyInfo.cs
+C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\obj\Release\netcoreapp2.0\linux-x64\BattleShip.dll
+C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\obj\Release\netcoreapp2.0\linux-x64\BattleShip.pdb

@@ -18,7 +18,6 @@
 
     connection.connectionMethods.onMessageReceived = () => {
         var data = connection.message;
-        console.log(data)
         if (data.won !== undefined) {
             $("#winnerContainer").attr("class", "");
             if (data.won)
@@ -62,6 +61,8 @@
     connection.start();
 
     $('.tableCell').click(function () {
-        connection.invoke("PlayTurn", connection.connectionId, $(this).attr('ox'), $(this).attr('oy'));
+        if ($(this).has().length === 0) {            
+            connection.invoke("PlayTurn", connection.connectionId, $(this).attr('ox'), $(this).attr('oy'));
+        }        
     });
 });

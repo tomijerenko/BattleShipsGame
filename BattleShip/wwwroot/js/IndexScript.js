@@ -11,6 +11,8 @@ function refreshStatisticsData() {
             $("#gamesTotal").html(data.totalGamesPlayed);
             $("#longestActiveGame").html(data.longestActiveGame);
             $("#totalMissileHits").html(data.totalMissileHits);
+            $("#totalMissileShoots").html(data.totalMissileShoots);
+            $("#totalMissileMisses").html(data.totalMissileMisses);
             $("#currentActiveGames").html(data.currentActiveGames);
         }
     });

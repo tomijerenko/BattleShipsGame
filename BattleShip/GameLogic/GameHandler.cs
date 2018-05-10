@@ -48,13 +48,9 @@ namespace BattleShip.GameLogic
             string socketId = WebSocketConnectionManager.GetId(socket);
 
             if (_battlesList.Count == 0 || _battlesList.FirstOrDefault(x => x.BattleFields.Count == 1) == null)
-            {
                 _battlesList.Add(new Battle(new BattleField() { SocketId = socketId }));
-            }
             else
-            {
                 _battlesList.FirstOrDefault(x => x.BattleFields.Count == 1).AddSecondBattleField(new BattleField() { SocketId = socketId });
-            }
         }
 
         public override Task OnDisconnected(WebSocket socket)
@@ -84,122 +80,115 @@ namespace BattleShip.GameLogic
             battleField.Ready = true;
 
             string senderMessage = JsonConvert.SerializeObject(new { startGame = true });
-            await WebSocketConnectionManager.GetSocketById(socketId).SendAsync(
-            buffer: new ArraySegment<byte>(array: Encoding.ASCII.GetBytes(senderMessage),
-                                                            offset: 0,
-                                                            count: senderMessage.Length),
-                            messageType: WebSocketMessageType.Text,
-                            endOfMessage: true,
-                            cancellationToken: CancellationToken.None);
+
+            await SendMessageToSingleSocket(socketId, senderMessage);
         }
 
-        public async Task StartGame(string socketId)
+        public async Task StartGame(string senderSocketId)
         {
-            Battle playerBattle = _battlesList.FirstOrDefault(g => g.BattleFields.Any(x => x.SocketId == socketId) == true);
+            Battle playerBattle = _battlesList.FirstOrDefault(g => g.BattleFields.Any(x => x.SocketId == senderSocketId) == true);
             
             if (playerBattle.IsGameReady())
             {
                 _context.Statistics.First().TotalGamesPlayed++;
                 _context.SaveChanges();
 
-                string playerMessage = JsonConvert.SerializeObject(new {
-                    connected = true,
-                    turn = playerBattle.IsPlayersTurn(socketId) ? "opponent" : "player",
-                    opponentName = playerBattle.BattleFields.FirstOrDefault(x => x.SocketId == socketId).Player.PlayerName });
+                string receiverSocketId = playerBattle.BattleFields.FirstOrDefault(battleField => battleField.SocketId != senderSocketId).SocketId;
 
-                string opponentMessage = JsonConvert.SerializeObject(new {
+                string senderMessage = JsonConvert.SerializeObject(new {
                     connected = true,
-                    turn = playerBattle.IsPlayersTurn(socketId) ? "player" : "opponent",
-                    opponentName = playerBattle.BattleFields.FirstOrDefault(x => x.SocketId != socketId).Player.PlayerName });
+                    turn = playerBattle.IsPlayersTurn(senderSocketId) ? "player" : "opponent",
+                    opponentName = playerBattle.BattleFields.FirstOrDefault(x => x.SocketId == receiverSocketId).Player.PlayerName });
 
-                await WebSocketConnectionManager.GetSocketById(playerBattle.BattleFields.FirstOrDefault().SocketId).SendAsync(
-                    buffer: new ArraySegment<byte>(array: Encoding.ASCII.GetBytes(playerMessage),
-                                                                    offset: 0,
-                                                                    count: playerMessage.Length),
-                                    messageType: WebSocketMessageType.Text,
-                                    endOfMessage: true,
-                                    cancellationToken: CancellationToken.None);
-                await WebSocketConnectionManager.GetSocketById(playerBattle.BattleFields.Last().SocketId).SendAsync(
-                    buffer: new ArraySegment<byte>(array: Encoding.ASCII.GetBytes(opponentMessage),
-                                                                    offset: 0,
-                                                                    count: opponentMessage.Length),
-                                    messageType: WebSocketMessageType.Text,
-                                    endOfMessage: true,
-                                    cancellationToken: CancellationToken.None);
+                string receiverMessage = JsonConvert.SerializeObject(new {
+                    connected = true,
+                    turn = playerBattle.IsPlayersTurn(senderSocketId) ? "opponent" : "player",
+                    opponentName = playerBattle.BattleFields.FirstOrDefault(x => x.SocketId == senderSocketId).Player.PlayerName });
+
+                await SendMessageToTwoSockets(senderSocketId, receiverSocketId, senderMessage, receiverMessage);
             }
         }
 
-        public async Task PlayTurn(string socketId, string x, string y)
+        public async Task PlayTurn(string senderSocketId, string x, string y)
         {
-            Battle playerBattle = _battlesList.FirstOrDefault(g => g.BattleFields.Any(battleField => battleField.SocketId == socketId) == true);
-            if (playerBattle.IsPlayersTurn(socketId))
+            Battle playerBattle = _battlesList.FirstOrDefault(g => g.BattleFields.Any(battleField => battleField.SocketId == senderSocketId) == true);
+            if (playerBattle.IsPlayersTurn(senderSocketId))
             {
-                bool isHit = playerBattle.Shoot(socketId, x, y);
+                bool isHit = playerBattle.Shoot(senderSocketId, x, y);
+                MissileShootStatsUpdate(isHit);
 
-                if (isHit)
-                {
-                    _context.Statistics.First().TotalMissileHits++;
-                    _context.SaveChanges();
-                }
+                string receiverSocketId = playerBattle.BattleFields.FirstOrDefault(battleField => battleField.SocketId != senderSocketId).SocketId;
+                string senderMessage;
+                string receiverMessage;                
 
                 if (playerBattle.IsGameOver())
                 {
-                    string sendermsg = JsonConvert.SerializeObject(new
-                    {
-                        won = (playerBattle.GetWinnerName() == socketId) ? false : true
+                    senderMessage = JsonConvert.SerializeObject(new {
+                        won = (playerBattle.GetWinnerName() == senderSocketId) ? false : true
                     });
-                    string rcvrmsg = JsonConvert.SerializeObject(new
+                    receiverMessage = JsonConvert.SerializeObject(new
                     {
-                        won = (playerBattle.GetWinnerName() == socketId) ? true : false
+                        won = (playerBattle.GetWinnerName() == senderSocketId) ? true : false
                     });
-                    string opntScktId = playerBattle.BattleFields.FirstOrDefault(battleField => battleField.SocketId != socketId).SocketId;
-                    await WebSocketConnectionManager.GetSocketById(socketId).SendAsync(
-                        buffer: new ArraySegment<byte>(array: Encoding.ASCII.GetBytes(sendermsg),
-                                                                        offset: 0,
-                                                                        count: sendermsg.Length),
-                                        messageType: WebSocketMessageType.Text,
-                                        endOfMessage: true,
-                                        cancellationToken: CancellationToken.None);
-                    await WebSocketConnectionManager.GetSocketById(opntScktId).SendAsync(
-                        buffer: new ArraySegment<byte>(array: Encoding.ASCII.GetBytes(rcvrmsg),
-                                                                        offset: 0,
-                                                                        count: rcvrmsg.Length),
-                                        messageType: WebSocketMessageType.Text,
-                                        endOfMessage: true,
-                                        cancellationToken: CancellationToken.None);
                 }
+                else
+                {
+                    senderMessage = JsonConvert.SerializeObject(new {
+                        x,
+                        y,
+                        hit = isHit,
+                        previousTurn = "player",
+                        turn = "opponent"
+                    });
+                    receiverMessage = JsonConvert.SerializeObject(new {
+                        x,
+                        y,
+                        hit = isHit,
+                        previousTurn = "opponent",
+                        turn = "player"
+                    });
+                }
+                await SendMessageToTwoSockets(senderSocketId,receiverSocketId,senderMessage,receiverMessage);
+            }            
+        }
 
-                string senderMessage = JsonConvert.SerializeObject(new {
-                    x,
-                    y,
-                    hit = isHit,
-                    previousTurn = "player",
-                    turn = "opponent"
-                });
-                string receiverMessage = JsonConvert.SerializeObject(new {
-                    x,
-                    y,
-                    hit = isHit,
-                    previousTurn = "opponent",
-                    turn = "player"
-                });
+        public async Task SendMessageToSingleSocket(string socketId, string message)
+        {
+            await WebSocketConnectionManager.GetSocketById(socketId).SendAsync(
+                    buffer: new ArraySegment<byte>(array: Encoding.ASCII.GetBytes(message),
+                                                                    offset: 0,
+                                                                    count: message.Length),
+                                    messageType: WebSocketMessageType.Text,
+                                    endOfMessage: true,
+                                    cancellationToken: CancellationToken.None);
+        }
 
-                string opponentSocketId = playerBattle.BattleFields.FirstOrDefault(battleField => battleField.SocketId != socketId).SocketId;
-                await WebSocketConnectionManager.GetSocketById(socketId).SendAsync(
+        public async Task SendMessageToTwoSockets(string senderSocketId, string receiverSocketId, string senderMessage, string receiverMessage)
+        {
+            await WebSocketConnectionManager.GetSocketById(senderSocketId).SendAsync(
                     buffer: new ArraySegment<byte>(array: Encoding.ASCII.GetBytes(senderMessage),
                                                                     offset: 0,
                                                                     count: senderMessage.Length),
                                     messageType: WebSocketMessageType.Text,
                                     endOfMessage: true,
                                     cancellationToken: CancellationToken.None);
-                await WebSocketConnectionManager.GetSocketById(opponentSocketId).SendAsync(
-                    buffer: new ArraySegment<byte>(array: Encoding.ASCII.GetBytes(receiverMessage),
-                                                                    offset: 0,
-                                                                    count: receiverMessage.Length),
-                                    messageType: WebSocketMessageType.Text,
-                                    endOfMessage: true,
-                                    cancellationToken: CancellationToken.None);
-            }            
+            await WebSocketConnectionManager.GetSocketById(receiverSocketId).SendAsync(
+                buffer: new ArraySegment<byte>(array: Encoding.ASCII.GetBytes(receiverMessage),
+                                                                offset: 0,
+                                                                count: receiverMessage.Length),
+                                messageType: WebSocketMessageType.Text,
+                                endOfMessage: true,
+                                cancellationToken: CancellationToken.None);
+        }
+
+        public void MissileShootStatsUpdate(bool isHit)
+        {
+            _context.Statistics.First().TotalMissileShoots++;
+            if (isHit)
+                _context.Statistics.First().TotalMissileHits++;
+            else
+                _context.Statistics.First().TotalMissileMisses++;
+            _context.SaveChanges();
         }
     }
 }

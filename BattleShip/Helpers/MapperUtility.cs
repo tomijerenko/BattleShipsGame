@@ -4,6 +4,7 @@ using System.Reflection;
 
 namespace BattleShip.Helpers
 {
+    //By Dipon Roy : https://www.codeproject.com/Tips/807820/Simple-Model-Entity-Mapper-in-Csharp
     public static class MapperUtility
     {
         public static TTarget MapTo<TSource, TTarget>(this TSource aSource, TTarget aTarget)

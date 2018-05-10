@@ -1,0 +1,50 @@
+﻿@model GameInitModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section Scripts {
+    <script src="@Url.Content("~/js/arrayDrawShips.js")"></script>
+}
+
+<div class="welcomeText">
+    <h1 class="text-center myTurnHeader">Welcome to the BattleShips game!</h1>
+    <h4 class="text-center">Place your ships, write your name and start playing!</h4>
+</div>
+<div class="row unselectableItems">
+    <div class="col-sm">
+        <h3 class="text-center">My battlefield</h3>
+        <table id="playerSetupTable" class="table table-dark text-center">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    @for (int i = 0; i < 10; i++)
+                    {
+                        <th scope="col">@i</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < 10; i++)
+                {
+                    <tr>
+                        <th scope="row">@i</th>
+                        @for (int j = 0; j < 10; j++)
+                        {
+                            <td px="@j" py="@i" tableType="player" class="tableCell" />
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div>
+    <form asp-action="BattleFieldSetup" method="post" class="">
+        <div><span asp-validation-for="PlayerName" class="text-danger"></span></div>
+        <div><span asp-validation-for="SerializedBFArray" class="text-danger"></span></div>
+        <input asp-for="PlayerName" class="form-control playerNameInput" placeholder="Enter your name">
+        <input type="hidden" asp-for="SerializedBFArray" id="SerializedBFArray">
+        <button type="submit" onclick="mapArray()" class="btn btn-primary btn-block">Find your opponent!</button>
+    </form>
+</div>   

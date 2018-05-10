@@ -1,0 +1,55 @@
+﻿@model StatisticsModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section Scripts {
+    <script src="@Url.Content("~/js/indexScript.js")"></script>
+}
+
+<div class="welcomeText">
+    <h1 class="text-center myTurnHeader">Welcome to the BattleShips game!</h1>
+    <div class="row">
+        <div class="indexShipLogo col-sm">
+            <div class="middle-div text-center">
+                <img class="indexShipLogoSize" src="~/images/ShipLogo.png" />
+            </div>            
+        </div>
+        <div class="indexShipLogo col-sm">
+            <div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th colspan="3" class="text-center" scope="col">Live game statistics:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th colspan="2" scope="row">Total time played:</th>
+                            <td id="timeTotal">@Html.DisplayFor(model => model.TotalTimePlayed)</td>
+                        </tr>
+                        <tr>
+                            <th colspan="2" scope="row">Total games played:</th>
+                            <td id="gamesTotal">@Html.DisplayFor(model => model.TotalGamesPlayed)</td>
+                        </tr>
+                        <tr>
+                            <th colspan="2" scope="row">Longest active game:</th>
+                            <td id="longestActiveGame">@Html.DisplayFor(model => model.LongestActiveGame)</td>
+                        </tr>
+                        <tr>
+                            <th colspan="2" scope="row">Total missile hits:</th>
+                            <td id="totalMissileHits">@Html.DisplayFor(model => model.TotalMissileHits)</td>
+                        </tr>
+                        <tr>
+                            <th colspan="2" scope="row">Current active games:</th>
+                            <td id="currentActiveGames">@Html.DisplayFor(model => model.CurrentActiveGames)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <form method="get">
+        <button class="btn btn-primary btn-block" asp-action="BattleFieldSetup" asp-controller="Home">Setup your battlefield!</button>
+    </form>
+</div>
