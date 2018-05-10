@@ -75,7 +75,7 @@ namespace BattleShip.GameLogic
         public async Task BindSocketAndPlayerData(string socketId, string playerName, string playerArray)
         {
             BattleField battleField = _battlesList.SelectMany(g => g.BattleFields).FirstOrDefault(t => t.SocketId == socketId);
-            battleField.Player = new Player() { PlayerName = playerName };
+            battleField.PlayerName = playerName;
             battleField.PlayerBattleArray = JsonConvert.DeserializeObject<string[,]>(playerArray);
             battleField.Ready = true;
 
@@ -98,12 +98,12 @@ namespace BattleShip.GameLogic
                 string senderMessage = JsonConvert.SerializeObject(new {
                     connected = true,
                     turn = playerBattle.IsPlayersTurn(senderSocketId) ? "player" : "opponent",
-                    opponentName = playerBattle.BattleFields.FirstOrDefault(x => x.SocketId == receiverSocketId).Player.PlayerName });
+                    opponentName = playerBattle.BattleFields.FirstOrDefault(x => x.SocketId == receiverSocketId).PlayerName });
 
                 string receiverMessage = JsonConvert.SerializeObject(new {
                     connected = true,
                     turn = playerBattle.IsPlayersTurn(senderSocketId) ? "opponent" : "player",
-                    opponentName = playerBattle.BattleFields.FirstOrDefault(x => x.SocketId == senderSocketId).Player.PlayerName });
+                    opponentName = playerBattle.BattleFields.FirstOrDefault(x => x.SocketId == senderSocketId).PlayerName });
 
                 await SendMessageToTwoSockets(senderSocketId, receiverSocketId, senderMessage, receiverMessage);
             }

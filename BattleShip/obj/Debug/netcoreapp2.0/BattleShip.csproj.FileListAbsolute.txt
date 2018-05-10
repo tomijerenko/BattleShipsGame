@@ -14,9 +14,9 @@ C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\bin\Debug\netcoreapp2.
 C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\bin\Debug\netcoreapp2.0\BattleShip.runtimeconfig.dev.json
 C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\bin\Debug\netcoreapp2.0\BattleShip.dll
 C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\bin\Debug\netcoreapp2.0\BattleShip.pdb
-C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\obj\Debug\netcoreapp2.0\BattleShip.csprojAssemblyReference.cache
 C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\obj\Debug\netcoreapp2.0\BattleShip.csproj.CoreCompileInputs.cache
 C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\obj\Debug\netcoreapp2.0\BattleShip.AssemblyInfoInputs.cache
 C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\obj\Debug\netcoreapp2.0\BattleShip.AssemblyInfo.cs
 C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\obj\Debug\netcoreapp2.0\BattleShip.dll
 C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\obj\Debug\netcoreapp2.0\BattleShip.pdb
+C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\obj\Debug\netcoreapp2.0\BattleShip.csprojAssemblyReference.cache

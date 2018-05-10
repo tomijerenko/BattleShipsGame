@@ -8,14 +8,17 @@ namespace BattleShip.GameLogic
     {        
         private DateTime _activeGame;
         private string _playerSocketTurn;
-        private int myVar;
+        public List<BattleField> BattleFields { get; set; }
+
+        public string PlayerSocketTurn
+        {
+            get { return _playerSocketTurn; }
+        }
 
         public DateTime ActiveGameTime
         {
             get { return _activeGame; }
-        }
-
-        public List<BattleField> BattleFields { get; set; }
+        }        
 
         public Battle(BattleField firstConnectedBattle)
         {
@@ -59,9 +62,11 @@ namespace BattleShip.GameLogic
                 return false;
         }
 
-        public bool Shoot(string playerSocketId, string x, string y)
-        {
-            BattleField battleField = BattleFields.FirstOrDefault(field => field.SocketId != playerSocketId);
+        public bool Shoot(string playerSocketShootingMissile, string x, string y)
+        {            
+            BattleField battleField = BattleFields.FirstOrDefault(field => field.SocketId != playerSocketShootingMissile);
+            if (battleField == null)
+                return false;
             string battleFieldValue = battleField.PlayerBattleArray[Convert.ToInt32(x), Convert.ToInt32(y)];
             _playerSocketTurn = battleField.SocketId;
             if (battleFieldValue != "" && battleFieldValue != "m")
@@ -91,7 +96,7 @@ namespace BattleShip.GameLogic
             foreach (BattleField item in BattleFields)
             {
                 if (item.NoOfHits >= 17)
-                    return item.Player.PlayerName;
+                    return item.PlayerName;
             }
             return null;
         }

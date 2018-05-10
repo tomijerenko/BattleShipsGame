@@ -35,7 +35,7 @@
     });
 
     var jsonData = $("#SerializedBFArray").val();
-    if (jsonData !== undefined) {
+    if ($("#SerializedBFArray").val().length !== 0) {
         var data = JSON.parse(jsonData);
         for (var i = 0; i < 10; i++) {
             for (var j = 0; j < 10; j++) {

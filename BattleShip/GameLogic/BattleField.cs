@@ -5,7 +5,7 @@ namespace BattleShip.GameLogic
 {
     public class BattleField
     {
-        public Player Player { get; set; }
+        public string PlayerName { get; set; }
         public string[,] PlayerBattleArray { get; set; }
         public string SocketId { get; set; }
         public bool Ready { get; set; }
