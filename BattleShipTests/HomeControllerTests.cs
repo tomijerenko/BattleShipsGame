@@ -16,8 +16,9 @@ namespace BattleShipTests
 
         public HomeControllerTests()
         {
+            //USE OF FAKE DOUBLE
             DbContextOptionsBuilder<DataBaseContext> optionsBuilder = new DbContextOptionsBuilder<DataBaseContext>();
-            optionsBuilder.UseInMemoryDatabase("FakeDb");
+            optionsBuilder.UseInMemoryDatabase("HomeControllerTests");
             DataBaseContext _dbContext = new DataBaseContext(optionsBuilder.Options);
             _dbContext.Statistics.Add(new GameStatistics()
             {
@@ -86,7 +87,7 @@ namespace BattleShipTests
         [Fact]
         public void PlayGame_Get_redirectsToIndex_TempDataNull()
         {
-            //mockam TempData
+            //MOCK DOUBLE ZARADI HTTPCONTEXTA
             var mock = new Mock<ITempDataDictionary>();
             controller.TempData = mock.Object;
 
@@ -126,8 +127,13 @@ namespace BattleShipTests
             var model = Assert.IsAssignableFrom<GameInitModel>(
                 viewResult.ViewData.Model);
             Assert.NotNull(model);
-
         }
 
+        [Fact]
+        public void StatisticsData_Get_ReturnsOk()
+        {
+            var result = controller.StatisticsData();
+            var viewResult = Assert.IsType<OkObjectResult>(result);
+        }
     }
 }

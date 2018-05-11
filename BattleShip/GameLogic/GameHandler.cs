@@ -9,21 +9,16 @@ using Newtonsoft.Json;
 using System.Linq;
 using BattleShip.Data;
 using Microsoft.EntityFrameworkCore;
-using BattleShip.Data.Entities;
 using Microsoft.Extensions.Configuration;
+using BattleShip.Data.Entities;
 
 namespace BattleShip.GameLogic
 {
     public class GameHandler : WebSocketHandler
-    {
-        private static List<Battle> _battlesList { get; set; }
+    {        
         private readonly DataBaseContext _context;
-
-        public static int CurrentActiveBattles
-        {
-            get { return _battlesList == null ? 0 : _battlesList.Count; }
-        }
-
+        private static List<Battle> _battlesList;
+     
         public GameHandler(WebSocketConnectionManager webSocketConnectionManager, IConfiguration Configuration) : base(webSocketConnectionManager)
         {
             _context = new DataBaseContext(
@@ -38,37 +33,27 @@ namespace BattleShip.GameLogic
                 _context.Statistics.Add(new GameStatistics());
                 _context.SaveChanges();
             }
-
-            _battlesList = new List<Battle>();
+            _battlesList = ActiveGameLogic.BattlesList;
         }
-
+                
         public override async Task OnConnected(WebSocket socket)
         {
             await base.OnConnected(socket);
             string socketId = WebSocketConnectionManager.GetId(socket);
-
-            if (_battlesList.Count == 0 || _battlesList.FirstOrDefault(x => x.BattleFields.Count == 1) == null)
-                _battlesList.Add(new Battle(new BattleField() { SocketId = socketId }));
-            else
-                _battlesList.FirstOrDefault(x => x.BattleFields.Count == 1).AddSecondBattleField(new BattleField() { SocketId = socketId });
-        }
+            ActiveGameLogic.AddSocketToEmptyBattle(socketId, _battlesList);
+        }        
 
         public override Task OnDisconnected(WebSocket socket)
         {
             Battle playerBattle = _battlesList
-                .FirstOrDefault(g => g.BattleFields
-                .Any(x => x.SocketId == WebSocketConnectionManager.GetId(socket)) == true);
+                            .FirstOrDefault(g => g.BattleFields
+                            .Any(x => x.SocketId == WebSocketConnectionManager.GetId(socket)) == true);
 
-            if (_battlesList.Remove(playerBattle) && playerBattle.ActiveGameTime != DateTime.MinValue)
+            if (ActiveGameLogic.RemoveDisconnectedBattle(playerBattle, _battlesList))
             {
-                GameStatistics stats = _context.Statistics.ToList().First();
-                TimeSpan timePlayed = DateTime.Now - playerBattle.ActiveGameTime;
-                stats.TotalTimePlayed += timePlayed;
-                if (stats.LongestActiveGame < timePlayed)
-                    stats.LongestActiveGame = timePlayed;
-                _context.SaveChanges();
-            }
-            
+                ActiveGameLogic.UpdateLongestActiveGame(playerBattle.ActiveGameTime, _context);
+            }            
+
             return base.OnDisconnected(socket);
         }
 
@@ -78,7 +63,6 @@ namespace BattleShip.GameLogic
             battleField.PlayerName = playerName;
             battleField.PlayerBattleArray = JsonConvert.DeserializeObject<string[,]>(playerArray);
             battleField.Ready = true;
-
             string senderMessage = JsonConvert.SerializeObject(new { startGame = true });
 
             await SendMessageToSingleSocket(socketId, senderMessage);
@@ -90,24 +74,27 @@ namespace BattleShip.GameLogic
             
             if (playerBattle.IsGameReady())
             {
-                _context.Statistics.First().TotalGamesPlayed++;
-                _context.SaveChanges();
+                ActiveGameLogic.IncrementTotalGamesPlayed(_context);
 
                 string receiverSocketId = playerBattle.BattleFields.FirstOrDefault(battleField => battleField.SocketId != senderSocketId).SocketId;
 
-                string senderMessage = JsonConvert.SerializeObject(new {
+                string senderMessage = JsonConvert.SerializeObject(new
+                {
                     connected = true,
                     turn = playerBattle.IsPlayersTurn(senderSocketId) ? "player" : "opponent",
-                    opponentName = playerBattle.BattleFields.FirstOrDefault(x => x.SocketId == receiverSocketId).PlayerName });
+                    opponentName = playerBattle.BattleFields.FirstOrDefault(x => x.SocketId == receiverSocketId).PlayerName
+                });
 
-                string receiverMessage = JsonConvert.SerializeObject(new {
+                string receiverMessage = JsonConvert.SerializeObject(new
+                {
                     connected = true,
                     turn = playerBattle.IsPlayersTurn(senderSocketId) ? "opponent" : "player",
-                    opponentName = playerBattle.BattleFields.FirstOrDefault(x => x.SocketId == senderSocketId).PlayerName });
+                    opponentName = playerBattle.BattleFields.FirstOrDefault(x => x.SocketId == senderSocketId).PlayerName
+                });
 
                 await SendMessageToTwoSockets(senderSocketId, receiverSocketId, senderMessage, receiverMessage);
             }
-        }
+        }        
 
         public async Task PlayTurn(string senderSocketId, string x, string y)
         {
@@ -115,7 +102,7 @@ namespace BattleShip.GameLogic
             if (playerBattle.IsPlayersTurn(senderSocketId))
             {
                 bool isHit = playerBattle.Shoot(senderSocketId, x, y);
-                MissileShootStatsUpdate(isHit);
+                ActiveGameLogic.MissileShootStatsUpdate(isHit, _context);
 
                 string receiverSocketId = playerBattle.BattleFields.FirstOrDefault(battleField => battleField.SocketId != senderSocketId).SocketId;
                 string senderMessage;
@@ -179,16 +166,6 @@ namespace BattleShip.GameLogic
                                 messageType: WebSocketMessageType.Text,
                                 endOfMessage: true,
                                 cancellationToken: CancellationToken.None);
-        }
-
-        public void MissileShootStatsUpdate(bool isHit)
-        {
-            _context.Statistics.First().TotalMissileShoots++;
-            if (isHit)
-                _context.Statistics.First().TotalMissileHits++;
-            else
-                _context.Statistics.First().TotalMissileMisses++;
-            _context.SaveChanges();
-        }
+        }        
     }
 }

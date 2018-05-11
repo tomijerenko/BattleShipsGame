@@ -1,0 +1,10 @@
+C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip
+--output-path=obj\Release\netcoreapp2.0\
+--application-name=BattleShip
+--content-root=C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip
+--file=C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\Views\Home\BattleFieldSetup.cshtml
+--file=C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\Views\Home\Index.cshtml
+--file=C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\Views\Home\PlayGame.cshtml
+--file=C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\Views\Shared\_Layout.cshtml
+--file=C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\Views\_ViewImports.cshtml
+--file=C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\Views\_ViewStart.cshtml

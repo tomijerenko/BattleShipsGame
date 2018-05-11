@@ -15,10 +15,6 @@ C:\Users\Tomi\Desktop\sqewl\ITK_MAG\ITA\BattleShipBoard\BattleShip\BattleShipTes
 C:\Users\Tomi\Desktop\sqewl\ITK_MAG\ITA\BattleShipBoard\BattleShip\BattleShipTests\obj\Debug\netcoreapp2.0\BattleShipTests.csproj.CopyComplete
 C:\Users\Tomi\Desktop\sqewl\ITK_MAG\ITA\BattleShipBoard\BattleShip\BattleShipTests\obj\Debug\netcoreapp2.0\BattleShipTests.dll
 C:\Users\Tomi\Desktop\sqewl\ITK_MAG\ITA\BattleShipBoard\BattleShip\BattleShipTests\obj\Debug\netcoreapp2.0\BattleShipTests.pdb
-C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShipTests\obj\Debug\netcoreapp2.0\BattleShipTests.csprojAssemblyReference.cache
-C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShipTests\obj\Debug\netcoreapp2.0\BattleShipTests.csproj.CoreCompileInputs.cache
-C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShipTests\obj\Debug\netcoreapp2.0\BattleShipTests.AssemblyInfoInputs.cache
-C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShipTests\obj\Debug\netcoreapp2.0\BattleShipTests.AssemblyInfo.cs
 C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShipTests\bin\Debug\netcoreapp2.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
 C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShipTests\bin\Debug\netcoreapp2.0\xunit.runner.reporters.netcoreapp10.dll
 C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShipTests\bin\Debug\netcoreapp2.0\xunit.runner.utility.netcoreapp10.dll
@@ -29,6 +25,10 @@ C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShipTests\bin\Debug\netcore
 C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShipTests\bin\Debug\netcoreapp2.0\BattleShipTests.pdb
 C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShipTests\bin\Debug\netcoreapp2.0\BattleShip.dll
 C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShipTests\bin\Debug\netcoreapp2.0\BattleShip.pdb
+C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShipTests\obj\Debug\netcoreapp2.0\BattleShipTests.csprojAssemblyReference.cache
+C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShipTests\obj\Debug\netcoreapp2.0\BattleShipTests.csproj.CoreCompileInputs.cache
+C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShipTests\obj\Debug\netcoreapp2.0\BattleShipTests.AssemblyInfoInputs.cache
+C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShipTests\obj\Debug\netcoreapp2.0\BattleShipTests.AssemblyInfo.cs
 C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShipTests\obj\Debug\netcoreapp2.0\BattleShipTests.csproj.CopyComplete
 C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShipTests\obj\Debug\netcoreapp2.0\BattleShipTests.dll
 C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShipTests\obj\Debug\netcoreapp2.0\BattleShipTests.pdb

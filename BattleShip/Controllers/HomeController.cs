@@ -22,7 +22,7 @@ namespace BattleShip.Controllers
         public IActionResult Index()
         {
             StatisticsModel stats = _context.Statistics.ToList().First().CreateMapped<GameStatistics, StatisticsModel>();
-            stats.CurrentActiveGames = GameHandler.CurrentActiveBattles;
+            stats.CurrentActiveGames = ActiveGameLogic.BattlesList.Count;
 
             return View(stats);
         }
@@ -63,8 +63,7 @@ namespace BattleShip.Controllers
         public IActionResult StatisticsData()
         {
             StatisticsModel stats = _context.Statistics.ToList().First().CreateMapped<GameStatistics, StatisticsModel>();
-            stats.CurrentActiveGames = GameHandler.CurrentActiveBattles;
-
+            stats.CurrentActiveGames = ActiveGameLogic.BattlesList.Count;
             return Ok(stats);
         }
     }

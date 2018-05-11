@@ -7,7 +7,7 @@ namespace BattleShip.Models
     {
         [Required(ErrorMessage = "You forgot your name!")]
         public string PlayerName { get; set; }
-        [ValidateArrayAttribute]
+        [ValidateArray]
         public string SerializedBFArray { get; set; }
         public string SocketId { get; set; }
     }
