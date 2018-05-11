@@ -36,7 +36,7 @@ namespace BattleShip.Controllers
         [HttpPost]
         public IActionResult BattleFieldSetup(GameInitModel model)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && TempData != null)
             {
                 TempData["model"] = JsonConvert.SerializeObject(model);
                 return RedirectToAction("PlayGame");

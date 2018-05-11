@@ -1,5 +1,4 @@
 ﻿using BattleShip.Data.Entities;
-using BattleShip.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace BattleShip.Data

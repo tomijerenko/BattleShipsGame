@@ -16,12 +16,12 @@ namespace BattleShip.GameLogic
 {
     public class GameHandler : WebSocketHandler
     {
-        private static List<Battle> _battlesList;
+        private static List<Battle> _battlesList { get; set; }
         private readonly DataBaseContext _context;
 
         public static int CurrentActiveBattles
         {
-            get { return _battlesList.Count; }
+            get { return _battlesList == null ? 0 : _battlesList.Count; }
         }
 
         public GameHandler(WebSocketConnectionManager webSocketConnectionManager, IConfiguration Configuration) : base(webSocketConnectionManager)
