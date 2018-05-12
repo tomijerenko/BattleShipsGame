@@ -21,6 +21,7 @@ namespace BattleShip
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddSingleton(Configuration);
             services.AddDbContext<DataBaseContext>(options =>
                 options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));                 

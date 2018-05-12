@@ -37,7 +37,7 @@ namespace BattleShip.GameLogic
         }
                 
         public override async Task OnConnected(WebSocket socket)
-        {
+        {            
             await base.OnConnected(socket);
             string socketId = WebSocketConnectionManager.GetId(socket);
             ActiveGameLogic.AddSocketToEmptyBattle(socketId, _battlesList);
@@ -45,12 +45,18 @@ namespace BattleShip.GameLogic
 
         public override Task OnDisconnected(WebSocket socket)
         {
+            string disconnectedSocket = WebSocketConnectionManager.GetId(socket);
             Battle playerBattle = _battlesList
                             .FirstOrDefault(g => g.BattleFields
-                            .Any(x => x.SocketId == WebSocketConnectionManager.GetId(socket)) == true);
+                            .Any(x => x.SocketId == disconnectedSocket) == true);
 
             if (ActiveGameLogic.RemoveDisconnectedBattle(playerBattle, _battlesList))
             {
+                string opponentSocket = playerBattle.BattleFields.FirstOrDefault(battleField => battleField.SocketId != disconnectedSocket).SocketId;
+                string message = JsonConvert.SerializeObject(new { disconnected = true });
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                SendMessageToSingleSocket(opponentSocket, message);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 ActiveGameLogic.IncrementTotalGamesPlayed(_context);
                 ActiveGameLogic.UpdateLongestActiveGame(playerBattle.ActiveGameTime, _context);
             }            

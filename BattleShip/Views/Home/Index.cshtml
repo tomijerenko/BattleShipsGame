@@ -7,7 +7,16 @@
     <script src="@Url.Content("~/js/updateStats.js")"></script>
 }
 
-<div class="welcomeText">
+    <div id="loadingContainer" class="loadingContainer">
+        <div class="windowCenter">
+            <div class="loader"></div>
+            <div class="windowCenterLoadingText">
+                <h1 class="text-center">Waiting for opponent to connect...</h1>
+            </div>
+        </div>        
+    </div>
+
+<div class="container-fluid">
     <h1 class="text-center myTurnHeader">Welcome to the BattleShips game!</h1>
     <div class="row">
         <div class="indexShipLogo col-lg">
