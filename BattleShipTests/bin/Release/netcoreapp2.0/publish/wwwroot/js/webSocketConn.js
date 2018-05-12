@@ -18,7 +18,10 @@
 
     connection.connectionMethods.onMessageReceived = () => {
         var data = connection.message;
-        if (data.won !== undefined) {
+        if (data.disconnected !== undefined) {
+            $("#disconnectedContainer").attr("class", "");
+        }
+        else if (data.won !== undefined) {
             $("#winnerContainer").attr("class", "");
             if (data.won)
                 $("#youWonText").attr("class", "");

@@ -11,14 +11,26 @@ using BattleShip.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using BattleShip.Data.Entities;
+using BattleShip.Models;
+using BattleShip.Helpers;
+using System.Timers;
 
 namespace BattleShip.GameLogic
 {
     public class GameHandler : WebSocketHandler
-    {        
+    {
         private readonly DataBaseContext _context;
         private static List<Battle> _battlesList;
-     
+        private static StatisticsModel _statistics;
+        public static StatisticsModel Statistics
+        {
+            get
+            {
+                _statistics.CurrentActiveGames = _battlesList.Count();
+                return _statistics;
+            }
+        }
+
         public GameHandler(WebSocketConnectionManager webSocketConnectionManager, IConfiguration Configuration) : base(webSocketConnectionManager)
         {
             _context = new DataBaseContext(
@@ -27,21 +39,21 @@ namespace BattleShip.GameLogic
                 .GetConnectionString("DefaultConnection"))
                 .Options);
 
-            //_context.Database.EnsureDeleted();
-            //if (_context.Database.EnsureCreated())
-            //{
-            //    _context.Statistics.Add(new GameStatistics());
-            //    _context.SaveChanges();
-            //}
+            System.Timers.Timer aTimer = new System.Timers.Timer();
+            aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            aTimer.Interval = 300000;
+            aTimer.Enabled = true;
+
+            _statistics = _context.Statistics.ToList().Last().CreateMapped<GameStatistics, StatisticsModel>();
             _battlesList = ActiveGameLogic.BattlesList;
         }
-                
+
         public override async Task OnConnected(WebSocket socket)
-        {            
+        {
             await base.OnConnected(socket);
             string socketId = WebSocketConnectionManager.GetId(socket);
             ActiveGameLogic.AddSocketToEmptyBattle(socketId, _battlesList);
-        }        
+        }
 
         public override Task OnDisconnected(WebSocket socket)
         {
@@ -57,9 +69,9 @@ namespace BattleShip.GameLogic
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 SendMessageToSingleSocket(opponentSocket, message);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                ActiveGameLogic.IncrementTotalGamesPlayed(_context);
-                ActiveGameLogic.UpdateLongestActiveGame(playerBattle.ActiveGameTime, _context);
-            }            
+                ActiveGameLogic.IncrementTotalGamesPlayed(_statistics);
+                ActiveGameLogic.UpdateLongestActiveGame(playerBattle.ActiveGameTime, _statistics);
+            }
 
             return base.OnDisconnected(socket);
         }
@@ -78,7 +90,7 @@ namespace BattleShip.GameLogic
         public async Task StartGame(string senderSocketId)
         {
             Battle playerBattle = _battlesList.FirstOrDefault(g => g.BattleFields.Any(x => x.SocketId == senderSocketId) == true);
-            
+
             if (playerBattle.IsGameReady())
             {
                 string receiverSocketId = playerBattle.BattleFields.FirstOrDefault(battleField => battleField.SocketId != senderSocketId).SocketId;
@@ -99,22 +111,23 @@ namespace BattleShip.GameLogic
 
                 await SendMessageToTwoSockets(senderSocketId, receiverSocketId, senderMessage, receiverMessage);
             }
-        }        
+        }
 
         public async Task PlayTurn(string senderSocketId, string x, string y)
         {
             Battle playerBattle = _battlesList.FirstOrDefault(g => g.BattleFields.Any(battleField => battleField.SocketId == senderSocketId) == true);
             if (playerBattle.IsPlayersTurn(senderSocketId))
             {
-                bool isHit = playerBattle.Shoot(senderSocketId, x, y);                
+                bool isHit = playerBattle.Shoot(senderSocketId, x, y);
 
                 string receiverSocketId = playerBattle.BattleFields.FirstOrDefault(battleField => battleField.SocketId != senderSocketId).SocketId;
                 string senderMessage;
-                string receiverMessage;                
+                string receiverMessage;
 
                 if (playerBattle.IsGameOver())
                 {
-                    senderMessage = JsonConvert.SerializeObject(new {
+                    senderMessage = JsonConvert.SerializeObject(new
+                    {
                         won = (playerBattle.GetWinnerName() == senderSocketId) ? false : true
                     });
                     receiverMessage = JsonConvert.SerializeObject(new
@@ -124,14 +137,16 @@ namespace BattleShip.GameLogic
                 }
                 else
                 {
-                    senderMessage = JsonConvert.SerializeObject(new {
+                    senderMessage = JsonConvert.SerializeObject(new
+                    {
                         x,
                         y,
                         hit = isHit,
                         previousTurn = "player",
                         turn = "opponent"
                     });
-                    receiverMessage = JsonConvert.SerializeObject(new {
+                    receiverMessage = JsonConvert.SerializeObject(new
+                    {
                         x,
                         y,
                         hit = isHit,
@@ -139,9 +154,9 @@ namespace BattleShip.GameLogic
                         turn = "player"
                     });
                 }
-                await SendMessageToTwoSockets(senderSocketId,receiverSocketId,senderMessage,receiverMessage);
-                ActiveGameLogic.MissileShootStatsUpdate(isHit, _context);
-            }            
+                await SendMessageToTwoSockets(senderSocketId, receiverSocketId, senderMessage, receiverMessage);
+                ActiveGameLogic.MissileShootStatsUpdate(isHit, _statistics);
+            }
         }
 
         public async Task SendMessageToSingleSocket(string socketId, string message)
@@ -171,6 +186,11 @@ namespace BattleShip.GameLogic
                                 messageType: WebSocketMessageType.Text,
                                 endOfMessage: true,
                                 cancellationToken: CancellationToken.None);
-        }        
-    }
+        }
+        private void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            _context.Statistics.Add(Statistics.CreateMapped<StatisticsModel, GameStatistics>());
+            _context.SaveChanges();
+        }
+    }    
 }

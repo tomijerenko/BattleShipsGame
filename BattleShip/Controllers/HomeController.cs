@@ -1,11 +1,8 @@
 ﻿using BattleShip.Data;
-using BattleShip.Data.Entities;
 using BattleShip.GameLogic;
-using BattleShip.Helpers;
 using BattleShip.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Linq;
 
 namespace BattleShip.Controllers
 {
@@ -21,10 +18,7 @@ namespace BattleShip.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            StatisticsModel stats = _context.Statistics.ToList().First().CreateMapped<GameStatistics, StatisticsModel>();
-            stats.CurrentActiveGames = ActiveGameLogic.BattlesList.Count;
-
-            return View(stats);
+            return View(GameHandler.Statistics);
         }
 
         [HttpGet]
@@ -62,9 +56,7 @@ namespace BattleShip.Controllers
         [HttpGet]
         public IActionResult StatisticsData()
         {
-            StatisticsModel stats = _context.Statistics.ToList().First().CreateMapped<GameStatistics, StatisticsModel>();
-            stats.CurrentActiveGames = ActiveGameLogic.BattlesList.Count;
-            return Ok(stats);
+            return Ok(GameHandler.Statistics);
         }
     }
 }

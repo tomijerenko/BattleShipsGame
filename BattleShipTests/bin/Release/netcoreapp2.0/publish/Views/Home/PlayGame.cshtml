@@ -7,6 +7,14 @@
     <script src="@Url.Content("~/js/webSocketConn.js")"></script>
 }
 
+<div id="disconnectedContainer" class="hide">
+    <div class="loadingContainer">
+        <div class="windowCenter">
+            <h1 class="text-center opponentDisconnectedText">Opponent has disconnected!</h1>
+        </div>
+    </div>
+</div>
+
 <div id="winnerContainer" class="hide">
     <div class="loadingContainer">
         <div class="windowCenter">
@@ -23,9 +31,9 @@
 <div id="loadingContainer" class="loadingContainer">
     <div class="windowCenter">
         <div class="loader"></div>
-    </div>
-    <div class="windowCenterLoadingText">
-        <h1 class="text-center">Waiting for opponent to connect...</h1>
+        <div class="windowCenterLoadingText">
+            <h1 class="text-center">Waiting for opponent to connect...</h1>
+        </div>
     </div>
 </div>
 

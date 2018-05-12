@@ -1,10 +1,7 @@
-﻿using BattleShip.Data;
-using BattleShip.Data.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using BattleShip.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BattleShip.GameLogic
 {
@@ -22,16 +19,14 @@ namespace BattleShip.GameLogic
             return battlesList.Remove(battle);
         }
 
-        public static void UpdateLongestActiveGame(DateTime gameStartedDateTime, DataBaseContext context)
+        public static void UpdateLongestActiveGame(DateTime gameStartedDateTime, StatisticsModel statisticsModel)
         {
             if (gameStartedDateTime != DateTime.MinValue)
             {
-                GameStatistics stats = context.Statistics.ToList().First();
                 TimeSpan timePlayed = DateTime.Now - gameStartedDateTime;
-                stats.TotalTimePlayed += timePlayed;
-                if (stats.LongestActiveGame < timePlayed)
-                    stats.LongestActiveGame = timePlayed;
-                context.SaveChangesAsync();
+                statisticsModel.TotalTimePlayed += timePlayed;
+                if (statisticsModel.LongestActiveGame < timePlayed)
+                    statisticsModel.LongestActiveGame = timePlayed;
             }
         }
 
@@ -43,21 +38,18 @@ namespace BattleShip.GameLogic
                 battlesList.FirstOrDefault(x => x.BattleFields.Count == 1).AddSecondBattleField(new BattleField() { SocketId = socketId });
         }
 
-        public static void IncrementTotalGamesPlayed(DataBaseContext context)
+        public static void IncrementTotalGamesPlayed(StatisticsModel statisticsModel)
         {
-            context.Statistics.First().TotalGamesPlayed++;
-            context.SaveChangesAsync();
+            statisticsModel.TotalGamesPlayed++;
         }
 
-        public static void MissileShootStatsUpdate(bool isHit, DataBaseContext context)
+        public static void MissileShootStatsUpdate(bool isHit, StatisticsModel statisticsModel)
         {
-            GameStatistics stats = context.Statistics.First();
-            stats.TotalMissileShoots++;
+            statisticsModel.TotalMissileShoots++;
             if (isHit)
-                stats.TotalMissileHits++;
+                statisticsModel.TotalMissileHits++;
             else
-                stats.TotalMissileMisses++;
-            context.SaveChanges();
+                statisticsModel.TotalMissileMisses++;
         }
     }
 }
