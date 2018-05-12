@@ -13,7 +13,7 @@
 </div>
 
 <div class="container-fluid">
-    <div class="col-sm unselectableItems">
+    <div class="unselectableItems">
         <h3 class="text-center">My battlefield</h3>
         <table id="playerSetupTable" class="table table-dark text-center">
             <thead>
@@ -41,7 +41,7 @@
     </div>
 </div>
 <div>
-    <form asp-action="BattleFieldSetup" method="post" class="">
+    <form asp-action="BattleFieldSetup" method="post">
         <div><span asp-validation-for="PlayerName" class="text-danger"></span></div>
         <div><span asp-validation-for="SerializedBFArray" class="text-danger"></span></div>
         <input asp-for="PlayerName" class="form-control playerNameInput" placeholder="Enter your name">

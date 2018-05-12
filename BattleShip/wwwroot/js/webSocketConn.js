@@ -9,7 +9,7 @@
         }
     }
 
-    var connection = new WebSocketManager.Connection("wss://" + window.location.host + "/game");
+    var connection = new WebSocketManager.Connection("ws://" + window.location.host + "/game");
     connection.enableLogging = false;
     connection.connectionMethods.onConnected = () => {
         connection.invoke("BindSocketAndPlayerData", connection.connectionId, $("#PlayerName").val(), $("#SerializedBFArray").val());

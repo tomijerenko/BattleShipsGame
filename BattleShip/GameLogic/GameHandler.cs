@@ -62,7 +62,7 @@ namespace BattleShip.GameLogic
                             .FirstOrDefault(g => g.BattleFields
                             .Any(x => x.SocketId == disconnectedSocket) == true);
 
-            if (ActiveGameLogic.RemoveDisconnectedBattle(playerBattle, _battlesList))
+            if (ActiveGameLogic.RemoveDisconnectedBattle(playerBattle, _battlesList) && playerBattle.BattleFields.Count == 2)
             {
                 string opponentSocket = playerBattle.BattleFields.FirstOrDefault(battleField => battleField.SocketId != disconnectedSocket).SocketId;
                 string message = JsonConvert.SerializeObject(new { disconnected = true });
@@ -189,8 +189,11 @@ namespace BattleShip.GameLogic
         }
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            _context.Statistics.Add(Statistics.CreateMapped<StatisticsModel, GameStatistics>());
-            _context.SaveChanges();
+            if (_battlesList.Count != 0)
+            {
+                _context.Statistics.Add(Statistics.CreateMapped<StatisticsModel, GameStatistics>());
+                _context.SaveChanges();
+            }            
         }
     }    
 }
