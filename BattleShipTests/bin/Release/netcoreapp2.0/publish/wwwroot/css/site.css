@@ -1,4 +1,25 @@
-﻿body {
+﻿@viewport {
+    min-width: 500px;
+}
+
+@media (max-width: 995px) {
+    .container {
+        padding: 1%;
+        max-width: 100%;
+    }
+
+    body {
+        padding: 0;
+    }
+
+    .navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top {
+        margin-left: 0;
+        margin-right: 0;
+        margin-bottom: 0;
+    }
+}
+
+body {
     padding-top: 10px;
     padding-bottom: 20px;
 }
@@ -50,10 +71,6 @@
     user-select: none;
 }
 
-.welcomeText {
-    padding-bottom: 30px;
-}
-
 .playerNameInput {
     margin-bottom: 15px;
 }
@@ -91,7 +108,7 @@
 }
 
 .windowCenter {
-    width: 50%;
+    width: 80%;
     height: 50%;
     overflow: auto;
     margin: auto;
@@ -128,10 +145,12 @@
 
 .youLostText {
     color: red;
+    font-size: 15vw;
 }
 
 .youWonText {
-    color: lawngreen;
+    color: forestgreen;
+    font-size: 15vw;
 }
 
 .indexShipLogo {
@@ -140,8 +159,8 @@
 }
 
 .indexShipLogoSize {
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 90%;
 }
 
 div.middle-div {
@@ -153,13 +172,18 @@ div.middle-div {
 }
 
 .windowCenterLoadingText {
-    width: 50%;
-    height: 50%;
+    width: 100%;
+    height: 100%;
     overflow: auto;
     margin: auto;
+    top: 230px;
     position: absolute;
-    top: 30%;
     left: 0;
     bottom: 0;
     right: 0;
+}
+
+.opponentDisconnectedText {
+    color: red;
+    font-size: 5vw;
 }

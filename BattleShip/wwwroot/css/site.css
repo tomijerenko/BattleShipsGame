@@ -1,4 +1,8 @@
-﻿@media (max-width: 995px) {
+﻿@viewport {
+    min-width: 500px;
+}
+
+@media (max-width: 995px) {
     .container {
         padding: 1%;
         max-width: 100%;
