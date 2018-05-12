@@ -1,8 +1,10 @@
 ﻿using BattleShip.Data;
 using BattleShip.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BattleShip.GameLogic
 {
@@ -29,7 +31,7 @@ namespace BattleShip.GameLogic
                 stats.TotalTimePlayed += timePlayed;
                 if (stats.LongestActiveGame < timePlayed)
                     stats.LongestActiveGame = timePlayed;
-                context.SaveChanges();
+                context.SaveChangesAsync();
             }
         }
 
@@ -44,16 +46,17 @@ namespace BattleShip.GameLogic
         public static void IncrementTotalGamesPlayed(DataBaseContext context)
         {
             context.Statistics.First().TotalGamesPlayed++;
-            context.SaveChanges();
+            context.SaveChangesAsync();
         }
 
         public static void MissileShootStatsUpdate(bool isHit, DataBaseContext context)
         {
-            context.Statistics.First().TotalMissileShoots++;
+            GameStatistics stats = context.Statistics.First();
+            stats.TotalMissileShoots++;
             if (isHit)
-                context.Statistics.First().TotalMissileHits++;
+                stats.TotalMissileHits++;
             else
-                context.Statistics.First().TotalMissileMisses++;
+                stats.TotalMissileMisses++;
             context.SaveChanges();
         }
     }

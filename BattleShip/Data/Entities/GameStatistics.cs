@@ -4,7 +4,7 @@ namespace BattleShip.Data.Entities
 {
     public class GameStatistics
     {
-        public int Id { get; set; }
+        public int id { get; set; }
         public TimeSpan TotalTimePlayed { get; set; }
         public int TotalGamesPlayed { get; set; }
         public TimeSpan LongestActiveGame { get; set; }

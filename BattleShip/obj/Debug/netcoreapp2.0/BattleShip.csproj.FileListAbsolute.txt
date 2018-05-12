@@ -19,4 +19,3 @@ C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\obj\Debug\netcoreapp2.
 C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\obj\Debug\netcoreapp2.0\BattleShip.AssemblyInfo.cs
 C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\obj\Debug\netcoreapp2.0\BattleShip.dll
 C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\obj\Debug\netcoreapp2.0\BattleShip.pdb
-C:\Users\Tomi\Documents\GitHub\BattleShipsGame\BattleShip\obj\Debug\netcoreapp2.0\BattleShip.csprojAssemblyReference.cache

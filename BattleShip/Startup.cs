@@ -23,7 +23,7 @@ namespace BattleShip
         {
             services.AddSingleton(Configuration);
             services.AddDbContext<DataBaseContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));                 
+                options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));                 
             services.AddWebSocketManager();
             services.AddMvc();
         }
