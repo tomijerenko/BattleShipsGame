@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    var clicked = false
+    var clicked = false;
     var maxFieldsCounter = 0;
 
     $("#playerSetupTable").on("mouseleave", function mouseState(e) {
@@ -56,7 +56,7 @@ function createArray(length) {
         while (i--) arr[length - 1 - i] = createArray.apply(this, args);
     }
     return arr;
-};
+}
 
 function getArrayData() {
     var shipCoordinates = createArray(10, 10);
@@ -69,8 +69,8 @@ function getArrayData() {
         }
     }
     return shipCoordinates;
-};
+}
 
 function mapArray() {
     $("#SerializedBFArray").val(JSON.stringify(getArrayData()));
-};
+}

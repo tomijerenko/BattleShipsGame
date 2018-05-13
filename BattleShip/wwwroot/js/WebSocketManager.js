@@ -74,16 +74,16 @@
                         this.socket.onmessage = function (event) {
                             _this.message = JSON.parse(event.data);
                             _this.connectionMethods['onMessageReceived'].apply(_this, event, _this.message);
-                            if (_this.message.messageType == Message_1.MessageType.Text) {
+                            if (_this.message.messageType === Message_1.MessageType.Text) {
                                 if (_this.enableLogging) {
                                     console.log('Text message received. Message: ' + _this.message.data);
                                 }
                             }
-                            else if (_this.message.messageType == Message_1.MessageType.MethodInvocation) {
+                            else if (_this.message.messageType === Message_1.MessageType.MethodInvocation) {
                                 var invocationDescriptor = JSON.parse(_this.message.data);
                                 _this.clientMethods[invocationDescriptor.methodName].apply(_this, invocationDescriptor.arguments);
                             }
-                            else if (_this.message.messageType == Message_1.MessageType.ConnectionEvent) {
+                            else if (_this.message.messageType === Message_1.MessageType.ConnectionEvent) {
                                 _this.connectionId = _this.message.data;
                                 _this.connectionMethods['onConnected'].apply(_this);
                             }
@@ -138,5 +138,5 @@
                 }());
                 exports.Message = Message;
             }
-        ])
+        ]);
 });

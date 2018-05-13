@@ -26,8 +26,12 @@ namespace BattleShip.GameLogic
         {
             get
             {
-                _statistics.CurrentActiveGames = _battlesList.Count();
-                return _statistics;
+                if (_statistics != null)
+                {
+                    _statistics.CurrentActiveGames = _battlesList.Count();
+                    return _statistics;
+                }
+                return new StatisticsModel();
             }
         }
 
@@ -193,7 +197,7 @@ namespace BattleShip.GameLogic
             {
                 _context.Statistics.Add(Statistics.CreateMapped<StatisticsModel, GameStatistics>());
                 _context.SaveChanges();
-            }            
+            }
         }
     }    
 }

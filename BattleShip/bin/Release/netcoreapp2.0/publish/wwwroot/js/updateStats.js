@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    setInterval(refreshStatisticsData, 5000)
+    setInterval(refreshStatisticsData, 5000);
 });
 
 function refreshStatisticsData() {

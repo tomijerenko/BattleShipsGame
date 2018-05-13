@@ -1,8 +1,14 @@
-﻿@viewport {
-    min-width: 500px;
-}
+﻿@media (max-width: 995px) {
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
 
-@media (max-width: 995px) {
+    .col-lg {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
     .container {
         padding: 1%;
         max-width: 100%;
@@ -84,7 +90,7 @@ body {
     right: 0;
     top: 0;
     background-color: white;
-    background: rgba(255, 255, 255, 1);
+    overflow: hidden;
 }
 
 .loader {
@@ -127,30 +133,33 @@ body {
     text-align: center;
 }
 
+.container-fluid {
+    padding: 0;
+}
+
 .playerVersus {
     font-size: 200%;
-    padding: 0px 20px 0px 20px;
+    padding-right: 20px;
+    padding-left: 20px;
     display: inline-block;
 }
 
 #playerOne {
-    font-size: 400%;
     display: inline-block;
 }
 
 #playerTwo {
-    font-size: 400%;
     display: inline-block;
 }
 
 .youLostText {
     color: red;
-    font-size: 15vw;
+    font-size: 3em;
 }
 
 .youWonText {
     color: forestgreen;
-    font-size: 15vw;
+    font-size: 3em;
 }
 
 .indexShipLogo {
@@ -159,13 +168,15 @@ body {
 }
 
 .indexShipLogoSize {
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
 }
 
-div.middle-div {
+middle-div {
+    top:50%;
     position: relative;
-    top: 50%;
+    -o-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
     -webkit-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
@@ -185,5 +196,5 @@ div.middle-div {
 
 .opponentDisconnectedText {
     color: red;
-    font-size: 5vw;
+    font-size: 3em;
 }

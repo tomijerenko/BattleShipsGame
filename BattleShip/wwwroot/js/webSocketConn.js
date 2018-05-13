@@ -9,7 +9,7 @@
         }
     }
 
-    var connection = new WebSocketManager.Connection("ws://" + window.location.host + "/game");
+    var connection = new WebSocketManager.Connection("wss://" + window.location.host + "/game");
     connection.enableLogging = false;
     connection.connectionMethods.onConnected = () => {
         connection.invoke("BindSocketAndPlayerData", connection.connectionId, $("#PlayerName").val(), $("#SerializedBFArray").val());
@@ -20,9 +20,11 @@
         var data = connection.message;
         if (data.disconnected !== undefined) {
             $("#disconnectedContainer").attr("class", "");
+            $("#playGameContent").attr("class", "hide");
         }
         else if (data.won !== undefined) {
             $("#winnerContainer").attr("class", "");
+            $("#playGameContent").attr("class", "hide");
             if (data.won)
                 $("#youWonText").attr("class", "");
             else
@@ -52,19 +54,20 @@
                 $("#opponentTurn").attr("class", "");
             }
             if (data.connected === true) {
-
-                $("#playerTwo").html(data.opponentName);
+                $("#playGameContent").attr("class", "");
+                $("#playerTwo").html(data.opponentName);                
                 $("#loadingContainer").attr("class", "hide");
             }
             else if (data.startGame === true)
-                connection.invoke("StartGame", connection.connectionId)
+                connection.invoke("StartGame", connection.connectionId);
         }        
     };
 
     connection.start();
 
     $('.tableCell').click(function () {
-        if ($(this).has().length === 0) {            
+        if (!$.trim($(this).html())) {
+            console.log($(this).has());
             connection.invoke("PlayTurn", connection.connectionId, $(this).attr('ox'), $(this).attr('oy'));
         }        
     });

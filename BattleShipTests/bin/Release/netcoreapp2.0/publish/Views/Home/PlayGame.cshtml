@@ -32,15 +32,15 @@
     <div class="windowCenter">
         <div class="loader"></div>
         <div class="windowCenterLoadingText">
-            <h1 class="text-center">Waiting for opponent to connect...</h1>
+            <h2 class="text-center">Waiting for opponent to connect...</h2>
         </div>
     </div>
 </div>
 
 <div class="text-center">
-    <div id="playerOne"></div>
+    <h1 id="playerOne"></h1>
     <div class="playerVersus">vs</div>
-    <div id="playerTwo"></div>
+    <h1 id="playerTwo"></h1>
 </div>
 
 <div>
@@ -52,58 +52,60 @@
     </div>
 
 </div>
-<div class="container-fluid">
-    <div class="col-sm unselectableItems">
-        <h3 class="text-center">My battlefield</h3>
-        <table class="table table-dark text-center">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    @for (int i = 0; i < 10; i++)
-                    {
-                        <th scope="col">@i</th>
-                    }
-                </tr>
-            </thead>
-            <tbody>
-                @for (int i = 0; i < 10; i++)
-                {
+<div id="playGameContent" class="hide">
+    <div class="container-fluid row">
+        <div class="unselectableItems col-lg">
+            <h3 class="text-center">My battlefield</h3>
+            <table class="table table-dark text-center">
+                <thead>
                     <tr>
-                        <th scope="row">@i</th>
-                        @for (int j = 0; j < 10; j++)
+                        <th scope="col">#</th>
+                        @for (int i = 0; i < 10; i++)
                         {
-                            <td px="@j" py="@i" class="tableCellPlayer" />
+                            <th scope="col">@i</th>
                         }
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-    <div class="col-sm">
-        <h3 class="text-center">Opponent's battlefield</h3>
-        <table class="table table-dark text-center">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
+                </thead>
+                <tbody>
                     @for (int i = 0; i < 10; i++)
                     {
-                        <th scope="col">@i</th>
+                        <tr>
+                            <th scope="row">@i</th>
+                            @for (int j = 0; j < 10; j++)
+                            {
+                                <td px="@j" py="@i" class="tableCellPlayer" />
+                            }
+                        </tr>
                     }
-                </tr>
-            </thead>
-            <tbody>
-                @for (int i = 0; i < 10; i++)
-                {
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg">
+            <h3 class="text-center">Opponent's battlefield</h3>
+            <table class="table table-dark text-center">
+                <thead>
                     <tr>
-                        <th scope="row">@i</th>
-                        @for (int j = 0; j < 10; j++)
+                        <th scope="col">#</th>
+                        @for (int i = 0; i < 10; i++)
                         {
-                            <td ox="@j" oy="@i" class="tableCell" />
+                            <th scope="col">@i</th>
                         }
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < 10; i++)
+                    {
+                        <tr>
+                            <th scope="row">@i</th>
+                            @for (int j = 0; j < 10; j++)
+                            {
+                                <td ox="@j" oy="@i" class="tableCell" />
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
