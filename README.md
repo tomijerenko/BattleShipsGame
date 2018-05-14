@@ -1,6 +1,6 @@
 # BattleShipsGame
-Simple BattleShips board game made in ASP .NET Core framework. Made as school project.
+Simple BattleShips board game made in ASP .NET Core framework.
 
 ASP .NET Core / jQuery/ Bootstrap / Entity Framework
 
-Currently works only on localhost, because URIs are hardcoded.
+Working version available at https://battleshipsapp.herokuapp.com/
