@@ -1,7 +1,6 @@
 ﻿using BattleShip.Controllers;
 using BattleShip.Data;
 using BattleShip.Data.Entities;
-using BattleShip.GameLogic;
 using BattleShip.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;

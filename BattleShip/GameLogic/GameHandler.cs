@@ -19,19 +19,20 @@ namespace BattleShip.GameLogic
 {
     public class GameHandler : WebSocketHandler
     {
+        //Requied to implement socket heartbeat for detection passively disconnected devices.
+
         private readonly DataBaseContext _context;
         private static List<Battle> _battlesList;
-        private static StatisticsModel _statistics;
+        private static StatisticsModel _statistics = null;
         public static StatisticsModel Statistics
         {
             get
             {
                 if (_statistics != null)
-                {
-                    _statistics.CurrentActiveGames = _battlesList.Count();
-                    return _statistics;
-                }
-                return new StatisticsModel();
+                    _statistics.CurrentActiveGames = _battlesList == null ? 0 : _battlesList.Count();
+                else
+                    _statistics = new StatisticsModel();
+                return _statistics;
             }
         }
 
@@ -199,5 +200,5 @@ namespace BattleShip.GameLogic
                 _context.SaveChanges();
             }
         }
-    }    
+    }
 }

@@ -1,7 +1,5 @@
-﻿using BattleShip.Data;
-using BattleShip.Data.Entities;
-using BattleShip.GameLogic;
-using Microsoft.EntityFrameworkCore;
+﻿using BattleShip.GameLogic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -9,17 +7,7 @@ using Xunit;
 namespace BattleShipTests
 {
     public class ActiveGameLogicTest
-    {
-        DataBaseContext _dbContext;
-
-        public ActiveGameLogicTest()
-        {
-            DbContextOptionsBuilder<DataBaseContext> optionsBuilder = new DbContextOptionsBuilder<DataBaseContext>();
-            optionsBuilder.UseInMemoryDatabase("ActiveGameLogicTests");
-            _dbContext = new DataBaseContext(optionsBuilder.Options);
-            _dbContext.Statistics.Add(new GameStatistics());
-            _dbContext.SaveChanges();
-        }        
+    {     
 
         [Fact]
         public void AddSocketToEmptyBattle_AddsNewBattle_battlesIncrement()
@@ -74,107 +62,107 @@ namespace BattleShipTests
 
             Assert.False(result);
         }
-        //[Fact]
-        //public void UpdateLongestActiveGame_TimeIsMinValue_NoUpdate()
-        //{
-        //    TimeSpan before = _dbContext.Statistics.First().LongestActiveGame;
-        //    ActiveGameLogic.UpdateLongestActiveGame(DateTime.MinValue, _dbContext);
-        //    TimeSpan after = _dbContext.Statistics.First().LongestActiveGame;
+        [Fact]
+        public void UpdateLongestActiveGame_TimeIsMinValue_NoUpdate()
+        {
+            TimeSpan before = GameHandler.Statistics.LongestActiveGame;
+            ActiveGameLogic.UpdateLongestActiveGame(DateTime.MinValue, GameHandler.Statistics);
+            TimeSpan after = GameHandler.Statistics.LongestActiveGame;
 
-        //    Assert.Equal(before, after);
-        //}
+            Assert.Equal(before, after);
+        }
 
-        //[Fact]
-        //public void UpdateLongestActiveGame_TimeIsSmallerValue_NoUpdate()
-        //{
-        //    ActiveGameLogic.UpdateLongestActiveGame(DateTime.Now.AddDays(-2), _dbContext);
-        //    TimeSpan before = _dbContext.Statistics.First().LongestActiveGame;
-        //    ActiveGameLogic.UpdateLongestActiveGame(DateTime.Now.AddDays(-1), _dbContext);
-        //    TimeSpan after = _dbContext.Statistics.First().LongestActiveGame;
+        [Fact]
+        public void UpdateLongestActiveGame_TimeIsSmallerValue_NoUpdate()
+        {
+            ActiveGameLogic.UpdateLongestActiveGame(DateTime.Now.AddDays(-2), GameHandler.Statistics);
+            TimeSpan before = GameHandler.Statistics.LongestActiveGame;
+            ActiveGameLogic.UpdateLongestActiveGame(DateTime.Now.AddDays(-1), GameHandler.Statistics);
+            TimeSpan after = GameHandler.Statistics.LongestActiveGame;
 
-        //    Assert.Equal(before, after);
-        //}
+            Assert.Equal(before, after);
+        }
 
-        //[Fact]
-        //public void UpdateLongestActiveGame_TimeIsHigherValue_Update()
-        //{
-        //    ActiveGameLogic.UpdateLongestActiveGame(DateTime.Now.AddDays(-1), _dbContext);
-        //    TimeSpan before = _dbContext.Statistics.First().LongestActiveGame;
-        //    ActiveGameLogic.UpdateLongestActiveGame(DateTime.Now.AddDays(-2), _dbContext);
-        //    TimeSpan after = _dbContext.Statistics.First().LongestActiveGame;
+        [Fact]
+        public void UpdateLongestActiveGame_TimeIsHigherValue_Update()
+        {
+            ActiveGameLogic.UpdateLongestActiveGame(DateTime.Now.AddDays(-1), GameHandler.Statistics);
+            TimeSpan before = GameHandler.Statistics.LongestActiveGame;
+            ActiveGameLogic.UpdateLongestActiveGame(DateTime.Now.AddDays(-2), GameHandler.Statistics);
+            TimeSpan after = GameHandler.Statistics.LongestActiveGame;
 
-        //    Assert.NotEqual(before, after);
-        //}
+            Assert.NotEqual(before, after);
+        }
 
-        //[Fact]
-        //public void MissileHitsStatsUpdate_isHit_increments()
-        //{
-        //    int beforeMissileHitsCount = _dbContext.Statistics.First().TotalMissileHits;
+        [Fact]
+        public void MissileHitsStatsUpdate_isHit_increments()
+        {
+            int beforeMissileHitsCount = GameHandler.Statistics.TotalMissileHits;
 
-        //    ActiveGameLogic.MissileShootStatsUpdate(true, _dbContext);
-        //    int afterMissileHitsCount = _dbContext.Statistics.First().TotalMissileHits;
+            ActiveGameLogic.MissileShootStatsUpdate(true, GameHandler.Statistics);
+            int afterMissileHitsCount = GameHandler.Statistics.TotalMissileHits;
 
-        //    Assert.NotEqual(beforeMissileHitsCount, afterMissileHitsCount);
-        //}
+            Assert.NotEqual(beforeMissileHitsCount, afterMissileHitsCount);
+        }
 
-        //[Fact]
-        //public void MissileHitsStatsUpdate_isNotHit_same()
-        //{
-        //    int beforeMissileHitsCount = _dbContext.Statistics.First().TotalMissileHits;
-        //    ActiveGameLogic.MissileShootStatsUpdate(false, _dbContext);
-        //    int afterMissileHitsCount = _dbContext.Statistics.First().TotalMissileHits;
+        [Fact]
+        public void MissileHitsStatsUpdate_isNotHit_same()
+        {
+            int beforeMissileHitsCount = GameHandler.Statistics.TotalMissileHits;
+            ActiveGameLogic.MissileShootStatsUpdate(false, GameHandler.Statistics);
+            int afterMissileHitsCount = GameHandler.Statistics.TotalMissileHits;
 
-        //    Assert.Equal(beforeMissileHitsCount, afterMissileHitsCount);
-        //}
+            Assert.Equal(beforeMissileHitsCount, afterMissileHitsCount);
+        }
 
-        //[Fact]
-        //public void MissileMissesStatsUpdate_isHit_same()
-        //{
-        //    int beforeMissileMisses = _dbContext.Statistics.First().TotalMissileMisses;
-        //    ActiveGameLogic.MissileShootStatsUpdate(true, _dbContext);
-        //    int afterMissileMisses = _dbContext.Statistics.First().TotalMissileMisses;
+        [Fact]
+        public void MissileMissesStatsUpdate_isHit_same()
+        {
+            int beforeMissileMisses = GameHandler.Statistics.TotalMissileMisses;
+            ActiveGameLogic.MissileShootStatsUpdate(true, GameHandler.Statistics);
+            int afterMissileMisses = GameHandler.Statistics.TotalMissileMisses;
 
-        //    Assert.Equal(beforeMissileMisses, afterMissileMisses);
-        //}
+            Assert.Equal(beforeMissileMisses, afterMissileMisses);
+        }
 
-        //[Fact]
-        //public void MissileMissesStatsUpdate_isNotHit_increments()
-        //{
-        //    int beforeMissileMisses = _dbContext.Statistics.First().TotalMissileMisses;
-        //    ActiveGameLogic.MissileShootStatsUpdate(false, _dbContext);
-        //    int afterMissileMisses = _dbContext.Statistics.First().TotalMissileMisses;
+        [Fact]
+        public void MissileMissesStatsUpdate_isNotHit_increments()
+        {
+            int beforeMissileMisses = GameHandler.Statistics.TotalMissileMisses;
+            ActiveGameLogic.MissileShootStatsUpdate(false, GameHandler.Statistics);
+            int afterMissileMisses = GameHandler.Statistics.TotalMissileMisses;
 
-        //    Assert.NotEqual(beforeMissileMisses, afterMissileMisses);
-        //}
+            Assert.NotEqual(beforeMissileMisses, afterMissileMisses);
+        }
 
-        //[Fact]
-        //public void TotalMissileCountStatsUpdate_isNotHit_increments()
-        //{
-        //    int before = _dbContext.Statistics.First().TotalMissileShoots;
-        //    ActiveGameLogic.MissileShootStatsUpdate(false, _dbContext);
-        //    int after = _dbContext.Statistics.First().TotalMissileShoots;
+        [Fact]
+        public void TotalMissileCountStatsUpdate_isNotHit_increments()
+        {
+            int before = GameHandler.Statistics.TotalMissileShoots;
+            ActiveGameLogic.MissileShootStatsUpdate(false, GameHandler.Statistics);
+            int after = GameHandler.Statistics.TotalMissileShoots;
 
-        //    Assert.NotEqual(before, after);
-        //}
+            Assert.NotEqual(before, after);
+        }
 
-        //[Fact]
-        //public void TotalMissileCountStatsUpdate_isHit_increments()
-        //{
-        //    int before = _dbContext.Statistics.First().TotalMissileShoots;
-        //    ActiveGameLogic.MissileShootStatsUpdate(true, _dbContext);
-        //    int after = _dbContext.Statistics.First().TotalMissileShoots;
+        [Fact]
+        public void TotalMissileCountStatsUpdate_isHit_increments()
+        {
+            int before = GameHandler.Statistics.TotalMissileShoots;
+            ActiveGameLogic.MissileShootStatsUpdate(true, GameHandler.Statistics);
+            int after = GameHandler.Statistics.TotalMissileShoots;
 
-        //    Assert.NotEqual(before, after);
-        //}
+            Assert.NotEqual(before, after);
+        }
 
-        //[Fact]
-        //public void IncrementTotalGamesPlayer_Increments()
-        //{
-        //    int before = _dbContext.Statistics.First().TotalGamesPlayed;
-        //    ActiveGameLogic.IncrementTotalGamesPlayed(_dbContext);
-        //    int after = _dbContext.Statistics.First().TotalGamesPlayed;
+        [Fact]
+        public void IncrementTotalGamesPlayer_Increments()
+        {
+            int before = GameHandler.Statistics.TotalGamesPlayed;
+            ActiveGameLogic.IncrementTotalGamesPlayed(GameHandler.Statistics);
+            int after = GameHandler.Statistics.TotalGamesPlayed;
 
-        //    Assert.NotEqual(before, after);
-        //}
+            Assert.NotEqual(before, after);
+        }
     }
 }
