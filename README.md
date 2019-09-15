@@ -1,5 +1,6 @@
 # BattleShipsGame
 Simple BattleShips board game made in ASP .NET Core framework.
+App was made using TDD approach.
 
 ASP .NET Core / jQuery/ Bootstrap / Entity Framework / MySQL
 
